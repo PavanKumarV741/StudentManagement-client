@@ -1,0 +1,38 @@
+*{
+  box-sizing: border-box;
+  background-color:"ButtonShadow";
+}
+
+.backgroundimg{
+  width: 70%;
+  height: 70vh;
+}
+
+#back{
+  display: flex;
+  justify-content: center;
+}
+
+.footer{
+  background-color: lavender;
+  
+}
+
+.footerul{
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  margin: 2px;
+  padding: 2px;
+}
+
+.icons{
+  margin: 5px;
+}
+
+.icons:hover{
+  cursor: pointer;
+}
