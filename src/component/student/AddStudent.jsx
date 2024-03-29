@@ -5,15 +5,20 @@ import tryAgainImg from '../../images/try-again.jpg'
 
 function AddStudent() {
     const navigate = useNavigate()
+
+    const defaultPath = "E:/lara-june/fullstack/project2/crud-app-client/src/images/blank-image.jpg"
+
     const [student,setStudent] = useState({
+        image : defaultPath,
         firstName:"",
         lastName:"",
         age:"",
         email:"",
         dept:""
+
     })
     
-    const{firstName,lastName,age,email,dept} = student
+    const{firstName,lastName,age,email,dept,image} = student
 
     const [alreadyExists,setAlreadyExists] = useState("");
 
@@ -24,10 +29,24 @@ function AddStudent() {
 		});
 	};
 
+    const handleFileChange = (e) =>{
+        setStudent({
+            ...student,image : e.target.files[0] 
+        })
+    }
+
     const saveStudent=async (e)=>{
         e.preventDefault()
         try{
-            await axios.post("http://localhost:7080/students/add",student)
+            const formData = new FormData();
+            formData.append("file",image);
+            formData.append("firstName",firstName);
+            formData.append("lastName",lastName);
+            formData.append("age",age);
+            formData.append("email",email);
+            formData.append("dept",dept);
+            console.log(formData)
+            await axios.post("http://localhost:7080/students/add",formData);
             navigate('/viewAllStudents')
         }
         catch(err){
@@ -115,7 +134,7 @@ function AddStudent() {
             />
         </div>
 
-        <div className="input-group mb-3">
+        <div className="input-group">
             <label
                 className="input-group-text"
                 htmlFor="dept">
@@ -129,6 +148,23 @@ function AddStudent() {
                 required
                 value={dept}
                 onChange={(e) => handleInputChange(e)}
+            />
+        </div>
+
+        <div className="input-group mb-3">
+            <label
+                className="input-group-text"
+                htmlFor="image">
+                Image
+            </label>
+            <input
+                className="form-control "
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*"
+                required
+                onChange={(e) => handleFileChange(e)}
             />
         </div>
 

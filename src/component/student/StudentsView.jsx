@@ -74,7 +74,7 @@ function StudentsView() {
         </thead>
 
         <tbody>
-            {students.filter((student)=> name.toLowerCase === "" ? student : student.firstName.toLowerCase().includes(name)).map((student)=>
+            {students.filter((student)=> name.toLowerCase() === "" ? student : student.firstName.toLowerCase().includes(name)).map((student)=>
                 <tr key={student.id}>
                     <td>{++count}</td>
                     <td>{student.firstName}</td>
@@ -91,6 +91,12 @@ function StudentsView() {
                     <button className="btn btn-danger" onClick={()=>deleteStudent(student.id)}><MdOutlineDeleteOutline/></button></td>
                 </tr>
             )}
+
+            {name !== "" && students.filter((student) => !student.firstName.toLowerCase().includes(name)).length === students.length && (
+                    <tr>
+                        <td colSpan="6" className="text-center">No matching records found</td>
+                    </tr>
+                )}
         </tbody>
 
       </table>

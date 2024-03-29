@@ -9,14 +9,16 @@ function EditStudent() {
    const navigate = useNavigate()
 
    const [student,setStudent] = useState({
+    image:null,
     firstName:"",
     lastName:"",
     age:"",
     email:"",
-    dept:""
+    dept:"",
+    fileName:""
    })
 
-   const {firstName,lastName,age,email,dept} = student;
+   const {firstName,lastName,age,email,dept,image} = student;
 
    useEffect(()=>{
         loadStudentById()
@@ -25,7 +27,7 @@ function EditStudent() {
    const loadStudentById= async ()=>{
     const result = await axios.get(`http://localhost:7080/students/getById/${id}`)
         try{
-            // console.log(result.data)
+            console.log(result.data)
             setStudent(result.data)
         }
         catch(err){
@@ -40,9 +42,23 @@ function EditStudent() {
         })
         console.log(student)
    }
+   
+   const handleInputFile = (e) =>{
+    setStudent({...student,
+            image : e.target.files[0]
+        })
+   }
 
    const handleUpdate = async () =>{
-        await axios.put(`http://localhost:7080/students/update/${id}`,student);
+        const formData = new FormData();
+        formData.append("file",image);
+        formData.append("firstName",student.firstName);
+        formData.append("lastName",student.lastName);
+        formData.append("age",student.age);
+        formData.append("email",student.email);
+        formData.append("dept",student.dept)
+
+        await axios.put(`http://localhost:7080/students/update/${id}`,formData);
         navigate(`/profile/${id}`)
    }
 
@@ -99,6 +115,16 @@ function EditStudent() {
                 onChange={handleInputChange}
                 value={dept}/>
             </div>
+
+            <label className="col-sm-2 mb-2  col-form-label">profile</label>
+            <div className="col-sm-10">
+                <input type="file" 
+                className="form-control" 
+                name="image"
+                onChange={(e)=>handleInputFile(e)}
+                />
+            </div>
+
         </div>
       </form>
         <div style={{textAlign:"center",display:"flex", justifyContent:"space-around",}}>

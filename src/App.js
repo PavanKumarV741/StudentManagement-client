@@ -10,7 +10,7 @@ import Footer from './component/Home/Footer';
 
 function App() {
   return (
-    <main id="wallpaper" style={{backgroundColor:"ButtonShadow"}}>
+    <main id="wallpaper" >
       
       <Router>
       <Navbar/>
